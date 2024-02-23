@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dribbling</title>
+</head>
+<body style="margin: 0; overflow: hidden">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+        margin: 0;
+        overflow: hidden;
+        font-family: 'Roboto', sans-serif;
+        user-select: none;
+    }
+
+    #overlay {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+
+    #score, #bestScore {
+        position: fixed;
+        font-size: 24px;
+    }
+
+    #score {
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: red;
+    }
+
+    #bestScore {
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: blue;
+    }
+
+    #retryButton {
+        font-size: 24px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 30%;
+    }
+</style>
+<div id="overlay">
+    <button id="retryButton"></button>
+</div>
+<div id="score"></div>
+<div id="bestScore"></div>
+<script type="module" src="index.js" ></script>
+</body>
+</html>
