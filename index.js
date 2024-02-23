@@ -6,6 +6,7 @@ import {Track} from "./Track.js";
 import {Puck} from "./Puck.js";
 import {Cone} from "./Cone.js";
 import {Gate} from "./Gate.js";
+import {Magnet} from "./Magnet.js";
 
 import {GameState} from "./GameState.js";
 import {Controls} from "./Controls.js";
@@ -13,10 +14,14 @@ import {Renderer} from "./Renderer.js";
 
 const track = new Track();
 const puck = new Puck();
-
 const gameObjects = new Object3D();
+const objects = [
+    i => new Gate(i),
+    i => new Cone(i),
+    i => new Magnet(i)
+];
 for (let i = 0; i < 200; i++) {
-    gameObjects.add(Math.random() > 0.5 ? new Gate(i) : new Cone(i));
+    gameObjects.add(objects[Math.floor(Math.random()*objects.length)](i));
 }
 
 const scene = new Scene();

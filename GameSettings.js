@@ -14,5 +14,7 @@ export const gameSettings = {
     gateHeight: 0.3,
     gateCollisionScore: 10,
 
+    magnetRadius: 0.8
+
 
 };
