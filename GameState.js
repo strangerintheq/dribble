@@ -1,21 +1,18 @@
-import {Puck} from "./Puck.js";
-import {Cone} from "./Cone.js";
-import {Track} from "./Track.js";
+import {gameSettings} from "./GameSettings.js";
 
 export class GameState {
 
-    speed = 2;
     direction = 2;
     gameActive = false; // Начальное состояние игры неактивное
     score = 0; // Переменная для хранения количества очков
     bestScore = 0; // Переменная для хранения лучшего результата
     gameTime = 0; // Переменная для отслеживания времени игры
 
-    cones;
+    gameObjects;
     puck;
 
-    constructor(cones, puck) {
-        this.cones = cones;
+    constructor(gameObjects, puck) {
+        this.gameObjects = gameObjects;
         this.puck = puck;
     }
 
@@ -40,47 +37,37 @@ export class GameState {
         this.score = 0; // Сбрасываем счет
         this.gameTime = 0; // Сбрасываем время игры
         this.puck.reset()
-        this.cones.children.forEach((cone, index) => cone.reset(index, Track.width));
-
-        document.getElementById('overlay').style.display = 'none'; // Скрываем кнопку
+        this.gameObjects.children.forEach((gameObject, index) => gameObject.reset(index));
         this.changeScore(0);
     }
 
     // движение шайбы
     movePuck(dt) {
         this.gameTime += dt; // Увеличиваем время игры
-        this.puck.position.y += dt * this.speed;
+        this.puck.position.y += dt * gameSettings.speed;
         this.puck.position.x += dt * this.direction;
     }
 
     // Проверка столкновения со стенками
     checkWallCollision() {
-        if (this.puck.position.x + Puck.puckRadius / 2 >= Track.width / 2) {
-            this.puck.position.x = Track.width / 2 - Puck.puckRadius / 2;
+        const p = this.puck.position;
+        const hr = gameSettings.puckRadius / 2;
+        const hw = gameSettings.trackWidth / 2;
+
+        if (p.x + hr >= hw) {
+            p.x = hw - hr;
             this.direction = -Math.abs(this.direction);
-            this.changeScore(-5)
+            this.changeScore(gameSettings.trackCollisionScore)
         }
-        if (this.puck.position.x - Puck.puckRadius / 2 <= -Track.width / 2) {
-            this.puck.position.x = -Track.width / 2 + Puck.puckRadius / 2
+
+        if (p.x + hw <= hr) {
+            p.x = hr - hw;
             this.direction = Math.abs(this.direction);
-            this.changeScore(-5)
+            this.changeScore(gameSettings.trackCollisionScore)
         }
     }
 
-    // Проверка столкновений с конусами
-    checkConeCollision(cone) {
-        if (cone.position.distanceTo(this.puck.position) < Puck.puckRadius + Cone.radius) {
-            // Столкновение, останавливаем движение, фиксируем время и показываем кнопку
-            this.gameActive = false;
-            document.getElementById('overlay').style.display = 'block';
-        }
-    }
-
-    // Проверка прохождения мимо конуса
-    checkConePass(cone) {
-        if (!cone.passed && this.puck.position.y > cone.position.y) {
-            cone.passed = true;
-            this.changeScore(1)
-        }
+    gameOver() {
+        this.gameActive = false;
     }
 }

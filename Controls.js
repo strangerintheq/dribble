@@ -17,12 +17,6 @@ export class Controls {
 
         addEventListener("click", () => this.onClick());
 
-        document.getElementById('retryButton')
-            .addEventListener('click', () => this.onRetryButtonClicked());
-    }
-
-    onRetryButtonClicked() {
-        this.gameState.reset();
     }
 
     onSwipe(dir) {

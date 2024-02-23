@@ -4,12 +4,15 @@ import {
     MeshBasicMaterial
 } from "https://unpkg.com/three@0.121.1/build/three.module.js";
 
+import {gameSettings} from "./GameSettings.js";
+
+const r = gameSettings.puckRadius;
+
 export class Puck extends Mesh {
 
-    static puckRadius = 0.1
-
     constructor() {
-        super(new CylinderGeometry(Puck.puckRadius, Puck.puckRadius, 0.1, 32), new MeshBasicMaterial({
+
+        super(new CylinderGeometry(r, r, 0.1, 32), new MeshBasicMaterial({
             color: "#000000"
         }));
         this.rotation.x = Math.PI / 2;
@@ -17,6 +20,6 @@ export class Puck extends Mesh {
     }
 
     reset() {
-        this.position.set(0,0,0)
+        this.position.set(0, 0, 0)
     }
 }

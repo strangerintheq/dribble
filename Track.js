@@ -7,25 +7,23 @@ import {
     Vector2
 } from "https://unpkg.com/three@0.121.1/build/three.module.js";
 
+import {gameSettings} from "./GameSettings.js";
+
 const trackTexture = makeTrackTexture();
 
 export class Track extends Mesh {
-
-    static width = 3;
-    static length = 300;
-
     constructor() {
-        super(new PlaneGeometry(Track.width, Track.length), new MeshBasicMaterial({
+        super(new PlaneGeometry(gameSettings.trackWidth, gameSettings.trackLength), new MeshBasicMaterial({
             color: "#eeeeee",
             map: trackTexture
         }));
-        this.position.y = Track.length * 0.495
+        this.position.y = gameSettings.trackLength * 0.495
     }
 }
 
 function makeTrackImage() {
     const canvas = document.createElement('canvas');
-    const size = 512;
+    const size = 256;
     canvas.width = size;
     canvas.height = size;
 
@@ -39,7 +37,7 @@ function makeTrackImage() {
 
 function makeTrackTexture() {
     const tex = new CanvasTexture(makeTrackImage());
-    tex.repeat = new Vector2(1, 100);
+    tex.repeat = new Vector2(1, gameSettings.trackLength / gameSettings.trackWidth);
     tex.wrapS = RepeatWrapping;
     tex.wrapT = RepeatWrapping;
     return tex;

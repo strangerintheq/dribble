@@ -5,6 +5,7 @@ import {
 import {Track} from "./Track.js";
 import {Puck} from "./Puck.js";
 import {Cone} from "./Cone.js";
+import {Gate} from "./Gate.js";
 
 import {GameState} from "./GameState.js";
 import {Controls} from "./Controls.js";
@@ -13,18 +14,18 @@ import {Renderer} from "./Renderer.js";
 const track = new Track();
 const puck = new Puck();
 
-const cones = new Object3D();
+const gameObjects = new Object3D();
 for (let i = 0; i < 200; i++) {
-    cones.add(new Cone());
+    gameObjects.add(Math.random() > 0.5 ? new Gate(i) : new Cone(i));
 }
 
 const scene = new Scene();
 scene.add(track);
 scene.add(puck);
-scene.add(cones);
+scene.add(gameObjects);
 
 const renderer = new Renderer();
-const gameState = new GameState(cones, puck);
+const gameState = new GameState(gameObjects, puck);
 const controls = new Controls(gameState);
 
 let dt, prevFrameTime = 0;
@@ -42,12 +43,9 @@ requestAnimationFrame(function render(t) {
     if (gameState.gameActive) {
         gameState.movePuck(dt);
         gameState.checkWallCollision();
-
-        cones.children.forEach(cone => {
-            gameState.checkConeCollision(cone);
-            gameState.checkConePass(cone);
-        })
-
+        gameObjects.children.forEach(o => {
+            o.check(gameState);
+        });
     }
 
     renderer.resize();
