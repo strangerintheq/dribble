@@ -25,8 +25,14 @@ export class Magnet extends Mesh {
     }
 
     check(gameState) {
+        if (!gameState.gameActive)
+            return
         if (this.position.distanceTo(gameState.puck.position) < max) {
             gameState.gameOver()
         }
+    }
+
+    animate(dt) {
+
     }
 }

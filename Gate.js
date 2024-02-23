@@ -33,10 +33,18 @@ export class Gate extends Mesh {
     }
 
     check(gameState) {
+        if (!gameState.gameActive)
+            return;
         if (!this.passed && this.position.distanceTo(gameState.puck.position) < gameSettings.puckRadius + width / 2) {
             gameState.changeScore(10);
             this.passed = true;
-            this.position.z = -0.1
+
         }
+    }
+
+    animate(dt) {
+        if(!this.passed)
+            return
+        this.position.z = Math.max(-0.1, this.position.z - 0.01);
     }
 }

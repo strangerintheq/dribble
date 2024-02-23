@@ -48,11 +48,11 @@ requestAnimationFrame(function render(t) {
     if (gameState.gameActive) {
         gameState.movePuck(dt);
         gameState.checkWallCollision();
-        gameObjects.children.forEach(o => {
-            o.check(gameState);
-        });
     }
-
+    gameObjects.children.forEach(o => {
+        o.check(gameState);
+        o.animate(dt);
+    });
     renderer.resize();
     renderer.moveCamera(puck.position);
     renderer.render(scene);
