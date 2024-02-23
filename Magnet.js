@@ -10,9 +10,9 @@ const height = 0.05;
 const r = gameSettings.magnetRadius;
 const coneGeometry = new CylinderGeometry(r, r, height, 32);
 const coneMaterial = new MeshBasicMaterial({color: "#00ff00"});
+const max = gameSettings.puckRadius + r;
 
 export class Magnet extends Mesh {
-
 
     constructor() {
         super(coneGeometry, coneMaterial);
@@ -25,12 +25,8 @@ export class Magnet extends Mesh {
     }
 
     check(gameState) {
-        // if (this.position.distanceTo(gameState.puck.position) < max) {
-        //     gameState.gameOver()
-        // }
-        // if (!this.passed && gameState.puck.position.y > this.position.y) {
-        //     this.passed = true;
-        //     gameState.changeScore(gameSettings.conePassScore)
-        // }
+        if (this.position.distanceTo(gameState.puck.position) < max) {
+            gameState.gameOver()
+        }
     }
 }
