@@ -1,4 +1,4 @@
-export const gameSettings = {
+export const settings = {
     speed: 2,
     puckRadius: 0.1,
 

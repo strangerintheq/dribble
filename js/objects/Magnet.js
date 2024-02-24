@@ -4,35 +4,34 @@ import {
     MeshBasicMaterial
 } from "https://unpkg.com/three@0.121.1/build/three.module.js";
 
-import {gameSettings} from "./GameSettings.js";
+import {settings} from "../Settings.js";
 
 const height = 0.05;
-const r = gameSettings.magnetRadius;
+const r = settings.magnetRadius;
 const coneGeometry = new CylinderGeometry(r, r, height, 32);
 const coneMaterial = new MeshBasicMaterial({color: "#00ff00"});
-const max = gameSettings.puckRadius + r;
+const max = settings.puckRadius + r;
 
 export class Magnet extends Mesh {
 
-    constructor() {
+    index;
+
+    constructor(index) {
         super(coneGeometry, coneMaterial);
+        this.index = index;
         this.rotation.x = Math.PI / 2;
     }
 
-    reset(index) {
-        const x = Math.sign(Math.random() - 0.5) * gameSettings.trackWidth/2;
-        this.position.set(x, index * 2 + 2, 0);
+    reset() {
+        const x = Math.sign(Math.random() - 0.5) * settings.trackWidth/2;
+        this.position.set(x, this.index * 2 + 2, 0);
     }
 
-    check(gameState) {
+    tick(gameState, dt) {
         if (!gameState.gameActive)
             return
-        if (this.position.distanceTo(gameState.puck.position) < max) {
+        if (this.position.distanceTo(gameState.puckPosition) < max) {
             gameState.gameOver()
         }
-    }
-
-    animate(dt) {
-
     }
 }

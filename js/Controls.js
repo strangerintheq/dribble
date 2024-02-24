@@ -1,8 +1,6 @@
 export class Controls {
-    gameState;
 
-    constructor(gameState) {
-        this.gameState = gameState;
+    constructor() {
 
         addEventListener("pointerdown", e0 => {
             const listener = e1 => {
@@ -20,10 +18,8 @@ export class Controls {
     }
 
     onSwipe(dir) {
-        this.gameState.changeDirection(dir);
     }
 
     onClick() {
-        this.gameState.reset();
     }
 }
