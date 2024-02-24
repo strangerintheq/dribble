@@ -10,8 +10,8 @@ import {Magnet} from "./objects/Magnet.js";
 
 
 const objects = [
-    // i => new Gate(i),
-    // i => new Cone(i),
+    i => new Gate(i),
+    i => new Cone(i),
     i => new Magnet(i)
 ];
 
