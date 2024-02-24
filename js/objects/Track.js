@@ -8,6 +8,7 @@ import {
 } from "https://unpkg.com/three@0.121.1/build/three.module.js";
 
 import {settings} from "../Settings.js";
+import {wall} from "../Audio.js";
 
 const trackTexture = makeTrackTexture();
 
@@ -25,6 +26,7 @@ export class Track extends Mesh {
         if (Math.abs(p.x) >= settings.trackWidth / 2 - settings.puckRadius / 2) {
             state.changeDirection(-Math.sign(p.x))
             state.changeScore(settings.trackCollisionScore)
+            wall.play()
         }
     }
 }

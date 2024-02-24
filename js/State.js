@@ -69,7 +69,7 @@ export class State {
         this.puckDirection = {x: Math.cos(angle), y: Math.sin(angle)};
     }
 
-    playSound()     {
+    playSound() {
 
     }
 

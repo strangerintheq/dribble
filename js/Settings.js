@@ -1,5 +1,5 @@
 export const settings = {
-    speed: 2,
+    speed: 3,
     puckRadius: 0.1,
 
     trackWidth: 3,
