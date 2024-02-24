@@ -3,6 +3,7 @@ import {GameState, State} from "./State.js";
 import {Controls} from "./Controls.js";
 import {Renderer} from "./Renderer.js";
 import {Scene} from "./Scene.js";
+import {shot} from "./Audio.js";
 
 const scene = new Scene();
 const renderer = new Renderer();
@@ -45,6 +46,7 @@ function handleClick() {
 }
 
 function handleSwipe(dir){
+    shot.play()
     if (state.gameState === GameState.NOT_STARTED) {
         state.start(dir)
     } else {
