@@ -46,10 +46,15 @@ function handleClick() {
 }
 
 function handleSwipe(dir){
-    shot.play()
-    if (state.gameState === GameState.NOT_STARTED) {
+    
+    
+    if (state.gameState === GameState.NOT_STARTED
+    ) {
         state.start(dir)
-    } else {
+        shot.play()
+    } else if ( state.gameState === GameState.RUNNING)
+    {
         state.changeDirection(dir);
+        shot.play()
     }
 }

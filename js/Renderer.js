@@ -16,7 +16,7 @@ export class Renderer {
         this.renderer = renderer;
 
         const camera = new PerspectiveCamera();
-        camera.position.set(0, -5, 5); // Позиция камеры по умолчанию в начале сцены
+        camera.position.set(0, -5, 3); // Позиция камеры по умолчанию в начале сцены
         this.camera = camera;
     }
 
@@ -34,7 +34,7 @@ export class Renderer {
     }
 
     moveCamera(pos) {
-        this.camera.position.y = pos.y - 5; // Позиция камеры следует за шайбой по оси Y с наклоном в двое меньше
-        this.camera.lookAt(pos.x / 5, pos.y, pos.z); // Камера смотрит на шайбу без изменения позиции по X
+        this.camera.position.y = pos.y - 4; // Позиция камеры следует за шайбой по оси Y с наклоном в двое меньше
+        this.camera.lookAt(pos.x,pos.y,pos.z); // Камера смотрит на шайбу без изменения позиции по X
     }
 }

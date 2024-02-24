@@ -11,9 +11,10 @@ export class Controls {
                 }
             };
             addEventListener("pointermove", listener);
+            this.onClick()
         });
 
-        addEventListener("click", () => this.onClick());
+       // addEventListener("click", () => this.onClick());
 
     }
 

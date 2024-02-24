@@ -5,6 +5,7 @@ import {
 } from "https://unpkg.com/three@0.121.1/build/three.module.js";
 
 import {settings} from "../Settings.js";
+import {cone} from "../Audio.js";
 
 const height = 0.3;
 const coneGeometry = new CylinderGeometry(0, settings.coneRadius, height, 32);
@@ -60,6 +61,7 @@ export class Cone extends Mesh {
         const dx = p2.x - p1.x;
         const dy = p2.y - p1.y;
         if (dx * dx + dy * dy < maxSq) {
+            cone.play()
             this.collided = true
             state.gameOver();
             const a = Math.atan2(dy, dx);
