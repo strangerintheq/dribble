@@ -4,6 +4,7 @@ export const GameState = {
     NOT_STARTED: "NOT_STARTED",
     RUNNING: "RUNNING",
     OVER: "OVER",
+    ENDED: "ENDED"
 };
 
 export class State {
@@ -21,8 +22,11 @@ export class State {
         this.gameTime += dt;
         this.puckPosition.y += dt * this.puckDirection.y * this.puckSpeed;
         this.puckPosition.x += dt * this.puckDirection.x * this.puckSpeed;
-        if (this.gameState === GameState.OVER) {
+        if (this.gameState === GameState.OVER || this.gameState === GameState.ENDED) {
             this.puckSpeed = this.puckSpeed * 0.98
+            if (this.puckSpeed < 0.1) {
+                this.gameState = GameState.ENDED;
+            }
         }
     }
 
@@ -47,6 +51,7 @@ export class State {
         this.puckDirection = {x: 0, y: 0};
         this.puckSpeed = 0;
         this.gameState = GameState.NOT_STARTED;
+        document.querySelector("#gameOver").style.display = "none"
     }
 
     start(dir) {
@@ -57,6 +62,7 @@ export class State {
 
     gameOver() {
         this.gameState = GameState.OVER;
+        document.querySelector("#gameOver").style.display = "unset"
     }
 
     setPuckDirection(angle) {

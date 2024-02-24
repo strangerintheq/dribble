@@ -33,34 +33,55 @@ export class Cone extends Mesh {
     }
 
     tick(state, dt) {
+        this.moveCone(dt);
+        this.collisionWithTrack();
+        this.testCollisionWithPuck(state);
+        this.testPass(state);
+    }
 
-        this.direction.y *= 0.95;
-        this.direction.x *= 0.95;
-        this.position.y += dt * this.direction.y;
-        this.position.x += dt * this.direction.x;
-
+    // проверка обхода конуса
+    testPass(state){
+        if (this.passed)
+            return;
         const p1 = state.puckPosition;
         const p2 = this.position;
-
-        if (!this.collided) {
-
-            const dx = p2.x - p1.x;
-            const dy = p2.y - p1.y;
-            if (dx * dx + dy * dy < maxSq) {
-                this.collided = true
-                state.gameOver();
-                const a = Math.atan2(dy, dx);
-                this.direction.y = Math.sin(a);
-                this.direction.x = Math.cos(a);
-                state.setPuckDirection(a+Math.PI)
-                state.puckSpeed /= 2
-            }
-        }
-
-        if (!this.passed && p1.y > p2.y) {
+        if (p1.y > p2.y) {
             this.passed = true;
             state.changeScore(settings.conePassScore)
         }
     }
 
+    // проверка и обработка столкновения с шайбой
+    testCollisionWithPuck(state) {
+        if (this.collided)
+            return;
+        const p1 = state.puckPosition;
+        const p2 = this.position;
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        if (dx * dx + dy * dy < maxSq) {
+            this.collided = true
+            state.gameOver();
+            const a = Math.atan2(dy, dx);
+            this.direction.y = Math.sin(a);
+            this.direction.x = Math.cos(a);
+            state.setPuckDirection(a + Math.PI)
+            state.puckSpeed /= 2
+        }
+    }
+
+    // движение конуса после столкновения с шайбой
+    moveCone(dt) {
+        this.direction.y *= 0.95;
+        this.direction.x *= 0.95;
+        this.position.y += dt * this.direction.y;
+        this.position.x += dt * this.direction.x;
+    }
+
+    // столкновение конуса с бортом
+    collisionWithTrack() {
+        if (Math.abs(this.position.x) > settings.trackWidth / 2 - settings.coneRadius) {
+            this.direction.x *= -1;
+        }
+    }
 }

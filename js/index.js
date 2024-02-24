@@ -38,7 +38,7 @@ requestAnimationFrame(function render(t) {
 });
 
 function handleClick() {
-    if (state.gameState !== GameState.OVER)
+    if (state.gameState !== GameState.ENDED)
         return;
     state.reset();
     scene.reset();

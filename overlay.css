@@ -34,12 +34,14 @@ body {
     color: blue;
 }
 
-#retryButton {
-    font-size: 24px;
+#gameOver {
+    color: RED;
+    font-size: 48px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
     height: 30%;
+    text-align: center;
 }
