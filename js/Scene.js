@@ -29,8 +29,8 @@ export class Scene extends ThreeScene {
         }
     }
 
-    tick(gameState, dt) {
-        this.children.forEach(o => o.tick && o.tick(gameState, dt))
+    tick(state, dt) {
+        this.children.forEach(o => o.tick && o.tick(state, dt))
     }
 
     reset() {

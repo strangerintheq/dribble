@@ -1,21 +1,29 @@
 import {settings} from "./Settings.js";
 
+export const GameState = {
+    NOT_STARTED: "NOT_STARTED",
+    RUNNING: "RUNNING",
+    OVER: "OVER",
+};
+
 export class State {
 
-    direction = 2;
-    gameActive = false; // Начальное состояние игры неактивное
-    score = 0; // Переменная для хранения количества очков
-    bestScore = 0; // Переменная для хранения лучшего результата
-    gameTime = 0; // Переменная для отслеживания времени игры
+    gameState;
+    score;
+    bestScore = 0;
+    gameTime;
 
-    puckPosition = {x: 0, y: 0, z: 0};
+    puckSpeed;
+    puckPosition;
+    puckDirection;
 
     tick(dt) {
-        if (!this.gameActive)
-            return
         this.gameTime += dt;
-        this.puckPosition.y += dt * settings.speed;
-        this.puckPosition.x += dt * this.direction;
+        this.puckPosition.y += dt * this.puckDirection.y * this.puckSpeed;
+        this.puckPosition.x += dt * this.puckDirection.x * this.puckSpeed;
+        if (this.gameState === GameState.OVER) {
+            this.puckSpeed = this.puckSpeed * 0.98
+        }
     }
 
     changeScore(amount) {
@@ -28,23 +36,33 @@ export class State {
     }
 
     changeDirection(dir) {
-        this.direction = dir * Math.abs(this.direction);
+        this.puckDirection.x = dir * Math.abs(this.puckDirection.x);
     }
 
     reset() {
-        this.gameActive = true;
-
-        // Сбрасываем счет
         this.score = 0;
         this.changeScore(0);
-
-        // Сбрасываем время игры
         this.gameTime = 0;
-
         this.puckPosition = {x: 0, y: 0, z: 0};
+        this.puckDirection = {x: 0, y: 0};
+        this.puckSpeed = 0;
+        this.gameState = GameState.NOT_STARTED;
+    }
+
+    start(dir) {
+        this.puckSpeed = settings.speed;
+        this.gameState = GameState.RUNNING;
+        this.setPuckDirection(dir === 1 ? 1 : Math.PI - 1);
     }
 
     gameOver() {
-        this.gameActive = false;
+        this.gameState = GameState.OVER;
     }
+
+    setPuckDirection(angle) {
+        this.puckDirection = {x: Math.cos(angle), y: Math.sin(angle)};
+    }
+
 }
+
+

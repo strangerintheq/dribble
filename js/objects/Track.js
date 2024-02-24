@@ -20,21 +20,11 @@ export class Track extends Mesh {
         this.position.y = settings.trackLength * 0.495
     }
 
-    tick(gameState, dt){
-        const p = gameState.puckPosition;
-        const hr = settings.puckRadius / 2;
-        const hw = settings.trackWidth / 2;
-
-        if (p.x + hr >= hw) {
-            p.x = hw - hr;
-            gameState.direction = -Math.abs(gameState.direction);
-            gameState.changeScore(settings.trackCollisionScore)
-        }
-
-        if (p.x + hw <= hr) {
-            p.x = hr - hw;
-            gameState.direction = Math.abs(gameState.direction);
-            gameState.changeScore(settings.trackCollisionScore)
+    tick(state, dt) {
+        const p = state.puckPosition;
+        if (Math.abs(p.x) >= settings.trackWidth / 2 - settings.puckRadius / 2) {
+            state.changeDirection(-Math.sign(p.x))
+            state.changeScore(settings.trackCollisionScore)
         }
     }
 }

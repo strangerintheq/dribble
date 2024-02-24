@@ -1,15 +1,15 @@
 
-import {State} from "./State.js";
+import {GameState, State} from "./State.js";
 import {Controls} from "./Controls.js";
 import {Renderer} from "./Renderer.js";
 import {Scene} from "./Scene.js";
 
 const scene = new Scene();
 const renderer = new Renderer();
-const gameState = new State();
-const controls = new Controls(gameState);
-controls.onSwipe = gameState.changeDirection;
-controls.onClick = resetGame;
+const state = new State();
+const controls = new Controls(state);
+controls.onSwipe = dir => handleSwipe(dir);
+controls.onClick = () => handleClick();
 
 let dt, prevFrameTime = 0;
 
@@ -19,24 +19,35 @@ function calcTime(t) {
     prevFrameTime = t;
 }
 
+scene.reset();
+state.reset();
+
 requestAnimationFrame(function render(t) {
 
     calcTime(t);
 
-    gameState.tick(dt);
-    scene.tick(gameState, dt);
+    state.tick(dt);
+    scene.tick(state, dt);
 
     renderer.resize();
-    renderer.moveCamera(gameState.puckPosition);
+    renderer.moveCamera(state.puckPosition);
     renderer.render(scene);
 
     requestAnimationFrame(render);
 
 });
 
-function resetGame() {
-    if (gameState.gameActive)
+function handleClick() {
+    if (state.gameState !== GameState.OVER)
         return;
-    gameState.reset();
+    state.reset();
     scene.reset();
+}
+
+function handleSwipe(dir){
+    if (state.gameState === GameState.NOT_STARTED) {
+        state.start(dir)
+    } else {
+        state.changeDirection(dir);
+    }
 }

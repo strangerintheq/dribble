@@ -5,6 +5,7 @@ import {
 } from "https://unpkg.com/three@0.121.1/build/three.module.js";
 
 import {settings} from "../Settings.js";
+import {GameState} from "../State.js";
 
 const height = 0.05;
 const r = settings.magnetRadius;
@@ -27,11 +28,12 @@ export class Magnet extends Mesh {
         this.position.set(x, this.index * 2 + 2, 0);
     }
 
-    tick(gameState, dt) {
-        if (!gameState.gameActive)
+    tick(state, dt) {
+        if (state.gameState !== GameState.RUNNING)
             return
-        if (this.position.distanceTo(gameState.puckPosition) < max) {
-            gameState.gameOver()
+        if (this.position.distanceTo(state.puckPosition) < max) {
+            state.gameOver();
+
         }
     }
 }

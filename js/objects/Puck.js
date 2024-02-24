@@ -15,15 +15,14 @@ export class Puck extends Mesh {
             color: "#000000"
         }));
         this.rotation.x = Math.PI / 2;
-
     }
 
     reset() {
         this.position.set(0, 0, 0)
     }
 
-    tick(gameState, dt) {
-        this.position.copy(gameState.puckPosition)
+    tick(state, dt) {
+        this.position.copy(state.puckPosition)
     }
 
 }
