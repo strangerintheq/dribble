@@ -7,6 +7,7 @@ import {Puck} from "./objects/Puck.js";
 import {Cone} from "./objects/Cone.js";
 import {Gate} from "./objects/Gate.js";
 import {Magnet} from "./objects/Magnet.js";
+import {Tail} from "./objects/Tail.js";
 
 
 const objects = [
@@ -22,6 +23,7 @@ export class Scene extends ThreeScene {
 
         this.add(new Track());
         this.add(new Puck());
+        // this.add(new Tail())
 
         for (let i = 0; i < 200; i++) {
             const randomIndex = Math.floor(Math.random()*objects.length);
